@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Menu } from "antd";
 import {
-  MailOutlined,
   AppstoreOutlined,
   SettingOutlined,
+  CloudFilled,
+  UserAddOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 
@@ -18,22 +20,23 @@ const TopNav = () => {
         onClick={handleClick}
         mode="horizontal"
         defaultSelectedKeys={[current]}
+        theme="dark"
       >
-        <Menu.Item key="mail" icon={<MailOutlined />}>
+        <Menu.Item key="mail" icon={<CloudFilled />}>
           <Link href={"/"}>
             <a>BLOGGER</a>
           </Link>
         </Menu.Item>
         <Menu.Item
           key="register"
-          icon={<MailOutlined />}
+          icon={<UserAddOutlined />}
           style={{ marginLeft: "auto" }}
         >
           <Link href={"/register"}>
             <a>Register</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key="login" icon={<MailOutlined />}>
+        <Menu.Item key="login" icon={<UserOutlined />}>
           <Link href={"/login"}>
             <a>Login</a>
           </Link>
