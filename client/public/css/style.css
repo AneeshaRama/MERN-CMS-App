@@ -2,3 +2,12 @@
   color: #1890ff !important;
   text-decoration: underline;
 }
+.login-container {
+  min-height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-wrapper {
+  width: 20rem;
+}

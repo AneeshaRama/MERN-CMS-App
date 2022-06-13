@@ -9,7 +9,7 @@ const AdminLayout = ({ children }) => {
       <Layout>
         <AdminNav />
         <Layout>
-          <Content>{children}</Content>
+          <Content style={{ padding: "10px" }}>{children}</Content>
         </Layout>
       </Layout>
     </>
