@@ -1,3 +1,11 @@
+html ::-webkit-scrollbar {
+  display: none;
+}
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .active {
   color: #1890ff !important;
   text-decoration: underline;
@@ -36,4 +44,22 @@
   padding: 10px 15px;
   margin-top: 20px;
   border-radius: 5px;
+}
+.ProseMirror {
+  height: 300px;
+  padding: 15px 28px;
+  overflow: scroll;
+  background-color: rgb(219, 244, 245);
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.create-post-wrapper {
+  width: 50vw;
+}
+.editor-scroll ::-webkit-scrollbar {
+  display: none;
+}
+.editor-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
