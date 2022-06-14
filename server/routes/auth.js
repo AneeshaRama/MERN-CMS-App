@@ -3,19 +3,11 @@ import express from "express";
 const router = express.Router();
 
 // controllers
-const {
-  signup,
-  signin,
-  forgotPassword,
-  resetPassword,
-} = require("../controllers/auth");
+const { signup, signin, currentUser } = require("../controllers/auth");
+const { requireLogin, adminCheck } = require("../middlewares");
 
-router.get("/", (req, res) => {
-  return res.json({
-    data: "hello world from kaloraat auth API",
-  });
-});
 router.post("/signup", signup);
 router.post("/signin", signin);
+router.get("/current-user", requireLogin, adminCheck, currentUser);
 
 export default router;

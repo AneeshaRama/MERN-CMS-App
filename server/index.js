@@ -1,10 +1,10 @@
-
 require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
 import authRoutes from "./routes/auth";
+import categoryRoutes from "./routes/category";
 
 const morgan = require("morgan");
 
@@ -24,5 +24,13 @@ app.use(morgan("dev"));
 
 // route middlewares
 app.use("/api", authRoutes);
+app.use("/api", categoryRoutes);
+app.use(function (err, req, res, next) {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ message: "Please login to continue." });
+  } else {
+    next(err);
+  }
+});
 
 app.listen(8000, () => console.log("Server running on port 8000"));
