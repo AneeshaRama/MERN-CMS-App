@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -7,22 +7,36 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../context/auth";
 import Router from "next/router";
 import Head from "next/head";
+import Loader from "../components/Loader";
 
 const register = () => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    if (auth?.user === null) {
+      setLoader(false);
+    } else {
+      Router.push("/");
+    }
+  }, [auth]);
+
+  if (loader) {
+    return <Loader />;
+  }
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
       await axios
-        .post(`${process.env.NEXT_PUBLIC_API}/signup`, values)
+        .post(`/signup`, values)
         .then((res) => {
           setLoading(false);
-          console.log(res.data);
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
           toast.success("successfully registered");
-          Router.push("/admin");
+          Router.push("/");
         })
         .catch((err) => {
           setLoading(false);

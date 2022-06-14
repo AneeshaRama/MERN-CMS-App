@@ -11,3 +11,20 @@
 .login-wrapper {
   width: 20rem;
 }
+.category-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.category-form-wrapper {
+  width: 13rem;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  font-size: "100px";
+  color: blue;
+}

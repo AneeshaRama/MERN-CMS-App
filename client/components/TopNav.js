@@ -25,6 +25,7 @@ const TopNav = () => {
       user: null,
       token: "",
     });
+    localStorage.removeItem("auth");
     toast.success("Successfully logged out");
     Router.push("/login");
   };
@@ -70,19 +71,41 @@ const TopNav = () => {
             </Menu.Item>
           </>
         )}
-        <Menu.SubMenu
-          key="SubMenu"
-          title="Dashboard"
-          icon={<SettingOutlined />}
-        >
-          <Menu.ItemGroup title="Management">
-            <Menu.Item key="one" icon={<AppstoreOutlined />}>
-              <Link href={"/admin"}>
-                <a>Admin</a>
-              </Link>
-            </Menu.Item>
-          </Menu.ItemGroup>
-        </Menu.SubMenu>
+        {auth.user && (
+          <Menu.SubMenu
+            key="SubMenu"
+            title={auth?.user?.name || "User"}
+            icon={<SettingOutlined />}
+          >
+            {auth?.user && auth.user.role === "admin" && (
+              <Menu.ItemGroup title="Management">
+                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                  <Link href={"/admin"}>
+                    <a>Admin Dashboard</a>
+                  </Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+            )}
+            {auth.user && auth.user.role === "Subscriber" && (
+              <Menu.ItemGroup title="Management">
+                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                  <Link href={"/user/profile"}>
+                    <a>Profile</a>
+                  </Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+            )}
+            {auth.user && auth.user.role === "author" && (
+              <Menu.ItemGroup title="Management">
+                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                  <Link href={"/author"}>
+                    <a>Dashboard</a>
+                  </Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+            )}
+          </Menu.SubMenu>
+        )}
       </Menu>
     </>
   );

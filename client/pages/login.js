@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -7,21 +7,42 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../context/auth";
 import Router from "next/router";
 import Head from "next/head";
+import Loader from "../components/Loader";
 
 const login = () => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    if (auth?.user === null) {
+      setLoader(false);
+    } else {
+      Router.push("/");
+    }
+  }, [auth]);
+
+  if (loader) {
+    return <Loader />;
+  }
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
       await axios
-        .post(`${process.env.NEXT_PUBLIC_API}/signin`, values)
+        .post(`/signin`, values)
         .then((res) => {
           setLoading(false);
           toast.success("Successfully signed in");
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
-          Router.push("/admin");
+          if (res.data.user.role == "admin") {
+            Router.push("/admin");
+          } else if (res.data.user.role == "author") {
+            Router.push("/author");
+          } else {
+            Router.push("/");
+          }
         })
         .catch((err) => {
           setLoading(false);
@@ -32,6 +53,7 @@ const login = () => {
       toast.error(error);
     }
   };
+
   return (
     <>
       <Head>
