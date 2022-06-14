@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -6,14 +6,29 @@ import {
   CloudFilled,
   UserAddOutlined,
   UserOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import { AuthContext } from "../context/auth";
+import Router from "next/router";
+import toast from "react-hot-toast";
 
 const TopNav = () => {
   const [current, setCurrent] = useState("mail");
+  const [auth, setAuth] = useContext(AuthContext);
   const handleClick = (e) => {
     setCurrent(e.key);
   };
+
+  const logoutHandler = () => {
+    setAuth({
+      user: null,
+      token: "",
+    });
+    toast.success("Successfully logged out");
+    Router.push("/login");
+  };
+
   return (
     <>
       <Menu
@@ -27,20 +42,34 @@ const TopNav = () => {
             <a>BLOGGER</a>
           </Link>
         </Menu.Item>
-        <Menu.Item
-          key="register"
-          icon={<UserAddOutlined />}
-          style={{ marginLeft: "auto" }}
-        >
-          <Link href={"/register"}>
-            <a>Register</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="login" icon={<UserOutlined />}>
-          <Link href={"/login"}>
-            <a>Login</a>
-          </Link>
-        </Menu.Item>
+        {auth.user !== null ? (
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined />}
+            style={{ marginLeft: "auto" }}
+          >
+            <Link href={"/login"}>
+              <a onClick={logoutHandler}>Logout</a>
+            </Link>
+          </Menu.Item>
+        ) : (
+          <>
+            <Menu.Item
+              key="register"
+              icon={<UserAddOutlined />}
+              style={{ marginLeft: "auto" }}
+            >
+              <Link href={"/register"}>
+                <a>Register</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="login" icon={<UserOutlined />}>
+              <Link href={"/login"}>
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
+          </>
+        )}
         <Menu.SubMenu
           key="SubMenu"
           title="Dashboard"

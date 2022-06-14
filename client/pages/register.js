@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Form, Input, Button } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  Checkbox,
-  MailOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/auth";
+import Router from "next/router";
+import Head from "next/head";
 
 const register = () => {
-  const onFinish = (values) => {
-    console.log(values);
+  const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useContext(AuthContext);
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      await axios
+        .post(`${process.env.NEXT_PUBLIC_API}/signup`, values)
+        .then((res) => {
+          setLoading(false);
+          console.log(res.data);
+          setAuth(res.data);
+          localStorage.setItem("auth", JSON.stringify(res.data));
+          toast.success("successfully registered");
+          Router.push("/admin");
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error(err.response.data.message);
+        });
+    } catch (error) {
+      setLoading(false);
+      toast.error(error);
+    }
   };
 
   return (
     <>
+      <Head>
+        <title>BLOGGER | Register Now</title>
+      </Head>
       <div className="login-container">
         <div className="login-wrapper">
           <h1 style={{ paddingTop: "120px" }}>Register</h1>
@@ -77,6 +101,7 @@ const register = () => {
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
+                loading={loading}
               >
                 Register
               </Button>
