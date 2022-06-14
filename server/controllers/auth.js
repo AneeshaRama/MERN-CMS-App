@@ -43,10 +43,10 @@ export const signup = async (req, res) => {
       });
 
       const { password, ...rest } = user._doc;
+
       return res.json({
         token,
         user: rest,
-        message: "You have sucessfully registered",
       });
     } catch (err) {
       console.log(err);
@@ -58,16 +58,15 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   try {
-    const { email, password } = req.body;
     // check if our db has user with that email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(400).json({
         message: "Invalid email or password",
       });
     }
     // check password
-    const match = await comparePassword(password, user.password);
+    const match = await comparePassword(req.body.password, user.password);
     if (!match) {
       return res.status(400).json({
         message: "Invalid email or password",
@@ -78,12 +77,10 @@ export const signin = async (req, res) => {
       expiresIn: "7d",
     });
 
-    user.password = undefined;
-    user.secret = undefined;
+    const { password, ...rest } = user._doc;
     res.json({
       token,
-      user,
-      message: "Successfully logged in",
+      user: rest,
     });
   } catch (err) {
     console.log(err);
