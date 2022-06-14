@@ -28,3 +28,12 @@
   font-size: "100px";
   color: blue;
 }
+.category-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(193, 220, 245);
+  padding: 10px 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+}

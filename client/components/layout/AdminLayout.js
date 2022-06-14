@@ -22,7 +22,7 @@ const AdminLayout = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchAdmin();
+    if (auth?.token) fetchAdmin();
   }, [auth?.token]);
 
   if (loading) {
@@ -30,7 +30,7 @@ const AdminLayout = ({ children }) => {
   }
   return (
     <>
-      <Layout>
+      <Layout style={{ minHeight: "90vh" }}>
         <AdminNav />
         <Layout>
           <Content style={{ padding: "10px" }}>{children}</Content>

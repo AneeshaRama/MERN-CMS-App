@@ -13,6 +13,7 @@ const login = () => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
   const [loader, setLoader] = useState(true);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (auth?.user === null) {
@@ -36,6 +37,7 @@ const login = () => {
           toast.success("Successfully signed in");
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
+          form.resetFields();
           if (res.data.user.role == "admin") {
             Router.push("/admin");
           } else if (res.data.user.role == "author") {
@@ -63,6 +65,7 @@ const login = () => {
         <div className="login-wrapper">
           <h1 style={{ paddingTop: "120px" }}>Login</h1>
           <Form
+            form={form}
             name="normal_login"
             className="login-form"
             initialValues={{

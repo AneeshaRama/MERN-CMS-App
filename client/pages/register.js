@@ -13,6 +13,7 @@ const register = () => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
   const [loader, setLoader] = useState(true);
+  const [from] = Form.useForm();
 
   useEffect(() => {
     if (auth?.user === null) {
@@ -35,6 +36,7 @@ const register = () => {
           setLoading(false);
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
+          from.resetFields();
           toast.success("successfully registered");
           Router.push("/");
         })
@@ -57,6 +59,7 @@ const register = () => {
         <div className="login-wrapper">
           <h1 style={{ paddingTop: "120px" }}>Register</h1>
           <Form
+            form={form}
             name="normal_login"
             className="login-form"
             initialValues={{

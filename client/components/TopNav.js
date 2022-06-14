@@ -75,29 +75,29 @@ const TopNav = () => {
           <Menu.SubMenu
             key="SubMenu"
             title={auth?.user?.name || "User"}
-            icon={<SettingOutlined />}
+            icon={<UserOutlined />}
           >
-            {auth?.user && auth.user.role === "admin" && (
+            {auth.user.role === "admin" && (
               <Menu.ItemGroup title="Management">
-                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                <Menu.Item key="one" icon={<SettingOutlined />}>
                   <Link href={"/admin"}>
                     <a>Admin Dashboard</a>
                   </Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             )}
-            {auth.user && auth.user.role === "Subscriber" && (
+            {auth.user.role === "Subscriber" && (
               <Menu.ItemGroup title="Management">
-                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                <Menu.Item key="one" icon={<SettingOutlined />}>
                   <Link href={"/user/profile"}>
                     <a>Profile</a>
                   </Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             )}
-            {auth.user && auth.user.role === "author" && (
+            {auth.user.role === "author" && (
               <Menu.ItemGroup title="Management">
-                <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                <Menu.Item key="one" icon={<SettingOutlined />}>
                   <Link href={"/author"}>
                     <a>Dashboard</a>
                   </Link>
