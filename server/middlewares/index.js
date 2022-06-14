@@ -8,7 +8,6 @@ const requireLogin = jwt({
 });
 
 const adminCheck = async (req, res, next) => {
-  console.log(req.auth._id);
   const IsAdmin = await user.findById(req.auth._id);
   if (IsAdmin.role !== "admin") {
     res.status(401).json({ message: "Admin resource. Access denied." });
