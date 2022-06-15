@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import { Button, Form, Input } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import toast from "react-hot-toast";
 import CategoryUpdateModal from "../../../components/modal/CategoryUpdateModal";
+import { PostContext } from "../../../context/post";
 
 const categories = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const [categories, setCategories] = useState([]);
+  const [post, setPost] = useContext(PostContext);
   const [updateCategory, setUpdateCategory] = useState({});
   const [visible, setVisible] = useState(false);
-
-  //fetch categories
-  const fetchCategories = async () => {
-    try {
-      await axios.get("/categories").then((res) => {
-        setCategories(res.data.categories);
-      });
-    } catch (error) {
-      toast.error("Failed to fetch categories");
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
+  const { categories } = post;
   //create category
   const onFinish = async (values) => {
     setLoading(true);
@@ -36,7 +22,10 @@ const categories = () => {
         .post(`/category`, values)
         .then((res) => {
           setLoading(false);
-          setCategories([res.data.category, ...categories]);
+          setPost((prev) => ({
+            ...prev,
+            categories: [res.data.category, ...categories],
+          }));
           toast.success(res.data.message);
           form.resetFields();
         })
@@ -55,11 +44,12 @@ const categories = () => {
     try {
       await axios.delete(`/category/${item.slug}`).then((res) => {
         toast.success(res.data.message);
-        setCategories(
-          categories.filter(
+        setPost((prev) => ({
+          ...prev,
+          categories: categories.filter(
             (category) => category._id !== res.data.category._id
-          )
-        );
+          ),
+        }));
       });
     } catch (error) {
       toast.error("Failed to delete category");
@@ -88,7 +78,7 @@ const categories = () => {
             }
             return cat;
           });
-          setCategories(newCategories);
+          setPost((prev) => ({ ...prev, categories: newCategories }));
           setUpdateCategory({});
         });
     } catch (error) {
