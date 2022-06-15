@@ -95,3 +95,36 @@ export const currentUser = async (req, res) => {
     console.log(error.message);
   }
 };
+
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Please enter all required fields" });
+    }
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+    if (password.length > 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
+    }
+    const hashedPassword = await hashPassword(password);
+    const user = await new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    }).save();
+    user.password = undefined;
+    return res
+      .status(200)
+      .json({ message: "Successfully created new user", user });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to create user" });
+  }
+};
