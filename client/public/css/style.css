@@ -46,11 +46,9 @@ html {
   border-radius: 5px;
 }
 .ProseMirror {
-  height: 300px;
+  min-height: 300px;
   padding: 15px 28px;
   overflow: scroll;
-  background-color: rgb(219, 244, 245);
-  border: 1px solid gray;
   border-radius: 5px;
 }
 .create-post-wrapper {
@@ -66,4 +64,14 @@ html {
 .ant-modal-body {
   min-height: 30vh;
   overflow: scroll;
+}
+.ant-card {
+  border-radius: 10px !important;
+}
+.ant-card-meta-title {
+  color: white !important;
+  font-weight: bold !important;
+}
+.content {
+  background-color: red !important;
 }

@@ -7,6 +7,7 @@ import {
   UserAddOutlined,
   UserOutlined,
   LogoutOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { AuthContext } from "../context/auth";
@@ -43,6 +44,13 @@ const TopNav = () => {
             <a>BLOGGER</a>
           </Link>
         </Menu.Item>
+        {auth.user !== null && (
+          <Menu.Item key="post" icon={<DatabaseOutlined />}>
+            <Link href={"/posts"}>
+              <a>Posts</a>
+            </Link>
+          </Menu.Item>
+        )}
         {auth.user !== null ? (
           <Menu.Item
             key="logout"

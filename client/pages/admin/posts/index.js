@@ -4,18 +4,38 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import { PostContext } from "../../../context/post";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Router from "next/router";
 
 const index = () => {
-  const [post] = useContext(PostContext);
+  const [post, setPost] = useContext(PostContext);
 
   //edit
   const handleEdit = (item) => {
-    alert("Edit", item);
+    Router.push(`/admin/posts/${item.slug}`);
   };
 
   //delete
-  const handleDelete = (item) => {
-    alert(item.slug);
+  const handleDelete = async (item) => {
+    try {
+      const answer = window.confirm(
+        "Are you sure you want to delete this post?"
+      );
+      if (!answer) return;
+      await axios
+        .delete(`/post/${item.slug}`)
+        .then((res) => {
+          toast.success(res.data.message);
+          setPost((prev) => ({
+            ...prev,
+            posts: post.posts.filter((p) => p._id !== res.data.post._id),
+          }));
+        })
+        .catch((err) => toast.error(err.response.data.message));
+    } catch (error) {
+      toast.error("Failed to delete post");
+    }
   };
 
   return (
