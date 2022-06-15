@@ -63,3 +63,7 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.ant-modal-body {
+  min-height: 30vh;
+  overflow: scroll;
+}

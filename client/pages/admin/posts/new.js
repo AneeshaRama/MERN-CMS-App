@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import Editor from "rich-markdown-editor";
-import { Input, Select, Modal, Button } from "antd";
+import { Input, Select, Modal, Button, Image } from "antd";
 import axios from "axios";
 import { uploadImage } from "../../../utils/uploadImage";
 import toast from "react-hot-toast";
 import Router from "next/router";
+import { UploadOutlined } from "@ant-design/icons";
+import Media from "../../../components/media";
+import { PostContext } from "../../../context/post";
 
 const NewPost = () => {
   //load from localStorage
@@ -30,6 +33,9 @@ const NewPost = () => {
   const [loadedCategories, setLoadedCategories] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showPreviewImage, setShowPreviewImage] = useState([]);
+  const [post, setPost] = useContext(PostContext);
 
   const fetchCategories = async () => {
     await axios.get("/categories").then((res) => {
@@ -45,12 +51,22 @@ const NewPost = () => {
     setLoading(true);
     try {
       await axios
-        .post("/post/new", { title, content, categories })
+        .post("/post/new", {
+          title,
+          content,
+          categories,
+          featuredImage: showPreviewImage?.media?._id,
+        })
         .then((res) => {
           setLoading(false);
+          setPost((prev) => ({
+            ...prev,
+            posts: [res.data.post, ...post.posts],
+          }));
           toast.success(res.data.message);
           localStorage.removeItem("post-title");
           localStorage.removeItem("post-content");
+          setShowPreviewImage(null);
           Router.push("/admin/posts");
         })
         .catch((err) => {
@@ -101,8 +117,22 @@ const NewPost = () => {
             >
               Preview
             </Button>
+            <br />
+            <Button
+              style={{ marginTop: "10px" }}
+              onClick={() => setShowModal(true)}
+              type="primary"
+            >
+              <UploadOutlined />
+              Featured Image
+            </Button>
+            <br />
+            <br />
+            {showPreviewImage !== null && (
+              <Image src={showPreviewImage?.media?.url} width="100" />
+            )}
+            <br />
           </div>
-          <br />
           <br />
           <h1>Categories</h1>
           <Select
@@ -141,6 +171,17 @@ const NewPost = () => {
         >
           <h1>{title}</h1>
           <Editor defaultValue={content} readOnly={true} />
+        </Modal>
+        <Modal
+          onCancel={() => setShowModal(false)}
+          visible={showModal}
+          title="Featured Image"
+          footer={null}
+        >
+          <Media
+            setShowPreviewImage={setShowPreviewImage}
+            setShowModal={setShowModal}
+          />
         </Modal>
       </AdminLayout>
     </>

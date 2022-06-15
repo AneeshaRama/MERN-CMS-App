@@ -4,7 +4,6 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import { PostContext } from "../../../context/post";
-import axios from "axios";
 
 const index = () => {
   const [post] = useContext(PostContext);
