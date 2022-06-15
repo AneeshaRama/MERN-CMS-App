@@ -66,6 +66,7 @@ export const createPost = async (req, res) => {
 export const listAllPosts = async (req, res) => {
   try {
     const posts = await Posts.find()
+      .populate("featuredImage")
       .populate("postedBy", "name")
       .populate("categories", "name slug")
       .sort({ createdAt: -1 });
@@ -99,5 +100,64 @@ export const allMedia = async (req, res) => {
     res.status(200).json({ media });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch media" });
+  }
+};
+
+export const getPostDetails = async (req, res) => {
+  try {
+    const post = await Posts.findOne({ slug: req.params.slug })
+      .populate("featuredImage")
+      .populate("postedBy", "name")
+      .populate("categories", "name slug");
+    res.status(200).json({ post });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch post details" });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const post = await Posts.findOneAndDelete({ slug });
+    res.status(200).json({ message: "Successfully deleted", post });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete post" });
+  }
+};
+
+export const editPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content, featuredImage, categories } = req.body;
+    let categoryIds = [];
+    for (let i = 0; i < categories.length; i++) {
+      Category.findOne({
+        name: categories[i],
+      }).exec((err, category) => {
+        if (err) {
+          console.log(err);
+        }
+        categoryIds.push(category._id);
+      });
+    }
+    setTimeout(async () => {
+      const post = await Posts.findByIdAndUpdate(
+        id,
+        {
+          title,
+          slug: slugify(title),
+          content,
+          featuredImage,
+          categories: categoryIds,
+        },
+        { new: true }
+      )
+        .populate("featuredImage", "url")
+        .populate("postedBy", "name")
+        .populate("categories", "name slug");
+      res.status(200).json({ message: "Successfully updated the Post", post });
+    }, 2000);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update post" });
   }
 };

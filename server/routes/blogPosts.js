@@ -8,6 +8,9 @@ import {
   listAllPosts,
   uploadImageFile,
   allMedia,
+  getPostDetails,
+  deletePost,
+  editPost,
 } from "../controllers/blogPosts";
 import { requireLogin, adminCheck } from "../middlewares";
 
@@ -22,5 +25,8 @@ router.post(
 router.post("/post/new", requireLogin, adminCheck, createPost);
 router.get("/posts", listAllPosts);
 router.get("/media", requireLogin, adminCheck, allMedia);
+router.get("/post/:slug", getPostDetails);
+router.delete("/post/:slug", requireLogin, adminCheck, deletePost);
+router.put("/edit-post/:id", requireLogin, adminCheck, editPost);
 
 export default router;
