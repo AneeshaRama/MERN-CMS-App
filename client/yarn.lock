@@ -577,6 +577,11 @@ gemoji@6.x:
   resolved "https://registry.yarnpkg.com/gemoji/-/gemoji-6.1.0.tgz#268fbb0c81d1a8c32a4bcc39bdfdd66080ba7ce9"
   integrity sha512-MOlX3doQ1fsfzxQX8Y+u6bC5Ssc1pBUBIPVyrS69EzKt+5LIZAOm0G5XGVNhwXFgkBF3r+Yk88ONyrFHo8iNFA==
 
+generate-password@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/generate-password/-/generate-password-1.7.0.tgz#00ba4eb1e71f89a72307b0d6604ee0d4e7f5770c"
+  integrity sha512-WPCtlfy0jexf7W5IbwxGUgpIDvsZIohbI2DAq2Q6TSlKKis+G4GT9sxvPxrZUGL8kP6WUXMWNqYnxY6DDKAdFA==
+
 globals@^11.1.0:
   version "11.12.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
