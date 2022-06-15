@@ -25,6 +25,10 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    featuredImage: {
+      type: mongoose.Types.ObjectId,
+      ref: "media",
+    },
   },
   { timestamps: true }
 );

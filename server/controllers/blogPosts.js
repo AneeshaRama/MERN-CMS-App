@@ -2,6 +2,7 @@ const cloudinary = require("cloudinary").v2;
 import Posts from "../models/blogPostModel";
 import slugify from "slugify";
 import Category from "../models/category";
+import Media from "../models/mediaModel";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -22,7 +23,7 @@ export const uploadImage = async (req, res) => {
 
 export const createPost = async (req, res) => {
   try {
-    const { title, content, categories } = req.body;
+    const { title, content, categories, featuredImage } = req.body;
 
     const alreadyExists = await Posts.findOne({
       slug: slugify(title).toLowerCase(),
@@ -53,6 +54,7 @@ export const createPost = async (req, res) => {
         content,
         categories: categoryIds,
         postedBy: req.auth._id,
+        featuredImage,
       }).save();
       res.status(201).json({ message: "Successfully created new post", post });
     }, 2000);
@@ -70,5 +72,32 @@ export const listAllPosts = async (req, res) => {
     res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json({ message: "Failed to list all posts" });
+  }
+};
+
+export const uploadImageFile = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.files.file.path, {
+      folder: "BLOGGER",
+    });
+    const media = await new Media({
+      url: result.secure_url,
+      public_id: result.public_id,
+      postedBy: req.auth._id,
+    }).save();
+    res.status(200).json({ media });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to upload" });
+  }
+};
+
+export const allMedia = async (req, res) => {
+  try {
+    const media = await Media.find()
+      .populate("postedBy", "_id")
+      .sort({ createdAt: -1 });
+    res.status(200).json({ media });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch media" });
   }
 };
