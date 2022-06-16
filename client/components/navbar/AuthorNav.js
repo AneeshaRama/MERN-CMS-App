@@ -54,7 +54,7 @@ const AuthorNav = () => {
         <SubMenu key="sub1" icon={<PushpinOutlined />} title="Posts">
           <Menu.Item key="2">
             <Link href="/author/posts">
-              <a className={activeName("/author/posts")}>All Posts</a>
+              <a className={activeName("/author/posts")}>My Posts</a>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
@@ -62,24 +62,19 @@ const AuthorNav = () => {
               <a className={activeName("/author/posts/new")}>Add new</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="4">
-            <Link href="/author/categories">
-              <a className={activeName("/author/categories")}>Categories</a>
-            </Link>
-          </Menu.Item>
         </SubMenu>
 
         {/* COMMENTS */}
         <Menu.Item key="7" icon={<CommentOutlined />}>
           <Link href="/author/comments">
-            <a className={activeName("/author/comments")}>Comments</a>
+            <a className={activeName("/author/comments")}>My Comments</a>
           </Link>
         </Menu.Item>
 
         {/* PROFILE */}
         <Menu.Item key="10" icon={<UserOutlined />}>
           <Link href="/author/profile">
-            <a className={activeName("/author/profile")}>Profile</a>
+            <a className={activeName("/author/profile")}>My Profile</a>
           </Link>
         </Menu.Item>
       </Menu>

@@ -7,6 +7,9 @@ import axios from "axios";
 import { Avatar, Col, List, Row, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+dayjs.extend(localizedFormat);
 
 const index = () => {
   const [auth] = useContext(AuthContext);
@@ -83,7 +86,9 @@ const index = () => {
                     style={{ marginLeft: "10px" }}
                   />
                   <List.Item.Meta
-                    title={`${item?.posts?.length} post`}
+                    title={`Joined on - ${dayjs(item?.createdAt).format(
+                      "L LT"
+                    )}`}
                     style={{ marginLeft: "10px" }}
                   />
                 </List.Item>

@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import Editor from "rich-markdown-editor";
 import CommentForm from "../../components/comments/CommentForm";
 import toast from "react-hot-toast";
+import { ShareSocial } from "react-share-social";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
@@ -43,7 +44,7 @@ const SinglePost = ({ singlePost, allComments }) => {
       </Head>
       <div style={{ padding: "15px" }}>
         <Row gutter={12}>
-          <Col xs={24} lg={16}>
+          <Col xs={24} lg={24}>
             <Card
               cover={
                 <img
@@ -51,18 +52,42 @@ const SinglePost = ({ singlePost, allComments }) => {
                     singlePost?.featuredImage?.url ||
                     "https://res.cloudinary.com/jamesmarycloud/image/upload/v1655295170/BLOGGER/default-image_utrmmd.jpg"
                   }
+                  style={{
+                    height: "500px",
+                    objectFit: "cover",
+                  }}
                   alt={singlePost.title}
                 />
               }
             >
               <Typography.Title>{singlePost.title}</Typography.Title>
               <p>
-                Posted by{" "}
-                <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                Posted by :{" "}
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    color: "maroon",
+                  }}
+                >
                   {singlePost.postedBy.name}
                 </span>{" "}
+                <br />
                 on {dayjs(singlePost.createdAt).format("MMMM d, YYYY hh:mm A")}
               </p>
+
+              <div>
+                <ShareSocial
+                  url={process.browser && window.location.href}
+                  socialTypes={["facebook", "twitter", "linkedin", "reddit"]}
+                  style={{
+                    height: "100px",
+                    overflow: "hidden",
+                    background: "none",
+                    marginBottom: "20px",
+                  }}
+                />
+              </div>
               <Editor
                 defaultValue={singlePost.content}
                 className="content"
@@ -96,12 +121,12 @@ const SinglePost = ({ singlePost, allComments }) => {
               )}
             />
           </Col>
-          <Col xs={24} lg={8}>
+          {/* <Col xs={24} lg={8}>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit.
             Reprehenderit natus dolorum quibusdam itaque hic. Id laboriosam
             corrupti dolores quibusdam cumque? Tenetur consectetur non alias
             earum dignissimos provident perspiciatis eius ex.
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>

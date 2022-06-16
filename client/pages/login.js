@@ -80,6 +80,8 @@ const login = () => {
               <Input
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Your email address"
+                size="large"
+                autoComplete="off"
               />
             </Form.Item>
             <Form.Item
@@ -95,6 +97,8 @@ const login = () => {
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
+                size="large"
+                autoComplete="off"
               />
             </Form.Item>
 

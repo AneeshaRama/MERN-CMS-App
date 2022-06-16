@@ -13,7 +13,7 @@ const register = () => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
   const [loader, setLoader] = useState(true);
-  const [from] = Form.useForm();
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (auth?.user === null) {
@@ -77,9 +77,11 @@ const register = () => {
               ]}
             >
               <Input
+                autoComplete="off"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Your name"
                 type="text"
+                size="large"
               />
             </Form.Item>
             <Form.Item
@@ -92,9 +94,11 @@ const register = () => {
               ]}
             >
               <Input
+                autoComplete="off"
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Your email address"
                 type="email"
+                size="large"
               />
             </Form.Item>
             <Form.Item
@@ -110,6 +114,7 @@ const register = () => {
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="New password"
+                size="large"
               />
             </Form.Item>
 

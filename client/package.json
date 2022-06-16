@@ -8,6 +8,7 @@
     "@react-hook/window-size": "^3.0.7",
     "antd": "^4.21.0",
     "axios": "^0.27.2",
+    "core-js": "^3.23.1",
     "dayjs": "^1.11.3",
     "generate-password": "^1.7.0",
     "next": "^12.1.6",
@@ -15,6 +16,7 @@
     "react-dom": "^18.1.0",
     "react-hot-toast": "^2.2.0",
     "react-image-file-resizer": "^0.4.8",
+    "react-share-social": "^0.1.48",
     "rich-markdown-editor": "^11.21.3",
     "styled-components": "^5.3.5"
   },
