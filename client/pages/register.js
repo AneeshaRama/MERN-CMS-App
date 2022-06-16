@@ -31,14 +31,14 @@ const register = () => {
     setLoading(true);
     try {
       await axios
-        .post(`/signup`, values)
+        .post(`${process.env.NEXT_PUBLIC_API}/signup`, values)
         .then((res) => {
           setLoading(false);
+          console.log(res.data);
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
-          from.resetFields();
           toast.success("successfully registered");
-          Router.push("/");
+          Router.push("/admin");
         })
         .catch((err) => {
           setLoading(false);
