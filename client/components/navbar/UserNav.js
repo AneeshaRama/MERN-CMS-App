@@ -48,13 +48,13 @@ const UserNav = () => {
         {/* COMMENTS */}
         <Menu.Item key="7" icon={<CommentOutlined />}>
           <Link href="/user/comments">
-            <a className={activeName("/user/comments")}>Comments</a>
+            <a className={activeName("/user/comments")}>My Comments</a>
           </Link>
         </Menu.Item>
         {/* PROFILE */}
         <Menu.Item key="10" icon={<UserOutlined />}>
           <Link href="/user/profile">
-            <a className={activeName("/user/profile")}>Profile</a>
+            <a className={activeName("/user/profile")}>My Profile</a>
           </Link>
         </Menu.Item>
       </Menu>

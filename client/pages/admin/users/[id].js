@@ -55,7 +55,7 @@ const index = () => {
       <AdminLayout>
         <Row>
           <Col xs={16} lg={16} offset={4}>
-            <h1 style={{ marginTop: "10px" }}>Add new user</h1>
+            <h1 style={{ marginTop: "10px" }}>Update user</h1>
             <Input
               style={{ marginTop: "10px" }}
               placeholder="Enter name"

@@ -4,6 +4,7 @@ import { Row, Col, Input, Button, Select } from "antd";
 import axios from "axios";
 import toast from "react-hot-toast";
 import generator from "generate-password";
+import Router from "next/router";
 
 const AddUser = () => {
   const [name, setName] = useState("");
@@ -21,6 +22,7 @@ const AddUser = () => {
         .then((res) => {
           setLoading(false);
           toast.success(res.data.message);
+          Router.push("/admin/users");
         })
         .catch((err) => {
           setLoading(false);
