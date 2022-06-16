@@ -83,3 +83,54 @@ body {
 .ant-list-item-meta-title {
   color: maroon !important;
 }
+.home-image {
+  position: relative;
+}
+.home-title {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.home-title h1 {
+  color: #efefef;
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.home-title p {
+  font-size: 25px;
+  color: #909090;
+  font-style: italic;
+  font-weight: 800;
+}
+.register-now {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #001529;
+  height: 200px;
+  margin-top: 20px;
+}
+.register-now h1 {
+  color: white;
+  letter-spacing: 1px;
+}
+.ant-menu {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+@media (max-width: 560px) {
+  .home-title h1 {
+    font-size: 40px;
+  }
+}
+@media (min-width: 561px) and(max-width:768px) {
+  .home-title h1 {
+    font-size: 50px;
+  }
+}

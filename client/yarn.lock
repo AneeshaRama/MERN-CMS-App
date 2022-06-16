@@ -1824,6 +1824,13 @@ rc-virtual-list@^3.2.0, rc-virtual-list@^3.4.8:
     rc-resize-observer "^1.0.0"
     rc-util "^5.15.0"
 
+react-count-to@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-count-to/-/react-count-to-0.12.0.tgz#28c6a2cc47b1d47c6019b35f02752ff109f3ca00"
+  integrity sha512-zckT3EvkGvdM65X7mIMVDXtv0/pYI2wpNH6iSEE7M14F2jO2IbCBTuJ+GCifkriY/l493CF9qCH5J4hiel9hYQ==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dom@^18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.1.0.tgz#7f6dd84b706408adde05e1df575b3a024d7e8a2f"

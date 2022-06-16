@@ -295,3 +295,15 @@ export const userPosts = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch user posts" });
   }
 };
+
+export const getNumbers = async (req, res) => {
+  try {
+    const posts = await Posts.countDocuments();
+    const users = await Users.countDocuments();
+    const categories = await Category.countDocuments();
+    const comments = await Comments.countDocuments();
+    res.status(200).json({ posts, users, categories, comments });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get numbers" });
+  }
+};

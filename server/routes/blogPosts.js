@@ -21,6 +21,7 @@ import {
   updateComment,
   userComments,
   userPosts,
+  getNumbers,
 } from "../controllers/blogPosts";
 import {
   requireLogin,
@@ -49,6 +50,7 @@ router.get("/posts-by-author", postsByAuthor);
 router.get("/post-count", postCount);
 router.get("/load-posts/:page", loadPosts);
 router.get("/user-posts", requireLogin, authorCheck, userPosts);
+router.get("/numbers", getNumbers);
 
 //comments
 router.post("/comment/:id", requireLogin, createComment);
