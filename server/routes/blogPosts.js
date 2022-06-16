@@ -14,6 +14,7 @@ import {
   postsByAuthor,
   postCount,
   loadPosts,
+  createComment,
 } from "../controllers/blogPosts";
 import {
   requireLogin,
@@ -40,5 +41,8 @@ router.put("/edit-post/:id", requireLogin, canUpdateAndDeletePost, editPost);
 router.get("/posts-by-author", postsByAuthor);
 router.get("/post-count", postCount);
 router.get("/load-posts/:page", loadPosts);
+
+//comments
+router.post("/comment/:id", requireLogin, createComment);
 
 export default router;

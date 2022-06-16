@@ -4,6 +4,7 @@ import slugify from "slugify";
 import Category from "../models/category";
 import Media from "../models/mediaModel";
 import Users from "../models/user";
+import Comments from "../models/comments";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -115,7 +116,10 @@ export const getPostDetails = async (req, res) => {
       .populate("featuredImage")
       .populate("postedBy", "name")
       .populate("categories", "name slug");
-    res.status(200).json({ post });
+    const comments = await Comments.find({ postId: post._id })
+      .populate("postedBy", "name")
+      .sort({ createdAt: -1 });
+    res.status(200).json({ post, comments });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch post details" });
   }
@@ -209,5 +213,21 @@ export const loadPosts = async (req, res) => {
     res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json({ message: "Failed to list all posts" });
+  }
+};
+
+//comments
+export const createComment = async (req, res) => {
+  try {
+    const { content } = req.body;
+    let comment = await new Comments({
+      content,
+      postedBy: req.auth._id,
+      postId: req.params.id,
+    }).save();
+    comment = await comment.populate("postedBy", "name");
+    res.status(200).json({ message: "Successfully added comment", comment });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to create comment" });
   }
 };
