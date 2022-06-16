@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import AdminLayout from "../../../components/layout/AdminLayout";
+import AuthorLayout from "../../../components/layout/AuthorLayout";
 import Editor from "rich-markdown-editor";
 import { Input, Select, Modal, Button, Image } from "antd";
 import axios from "axios";
@@ -11,7 +11,7 @@ import Media from "../../../components/media";
 import { PostContext } from "../../../context/post";
 import Loader from "../../../components/Loader";
 
-const EditPostAdmin = () => {
+const EditPostAuthor = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categories, setCategories] = useState([]);
@@ -74,7 +74,7 @@ const EditPostAdmin = () => {
           setContent("");
           setCategories([]);
           setShowPreviewImage(null);
-          Router.push("/admin/posts");
+          Router.push("/author/posts");
         })
         .catch((err) => {
           setLoading(false);
@@ -89,7 +89,7 @@ const EditPostAdmin = () => {
 
   return (
     <>
-      <AdminLayout>
+      <AuthorLayout>
         <div className="category-container">
           <div sty className="create-post-wrapper">
             <h1>Edit Post</h1>
@@ -192,9 +192,9 @@ const EditPostAdmin = () => {
             setShowModal={setShowModal}
           />
         </Modal>
-      </AdminLayout>
+      </AuthorLayout>
     </>
   );
 };
 
-export default EditPostAdmin;
+export default EditPostAuthor;

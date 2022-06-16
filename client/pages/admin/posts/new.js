@@ -5,7 +5,7 @@ const NewPost = () => {
   return (
     <>
       <AdminLayout>
-        <CreatePost />
+        <CreatePost redirect="/admin/posts" />
       </AdminLayout>
     </>
   );

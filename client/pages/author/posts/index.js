@@ -1,34 +1,41 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Button } from "antd";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
-import AdminLayout from "../../../components/layout/AdminLayout";
+import React, { useContext, useEffect, useState } from "react";
+import AuthorLayout from "../../../components/layout/AuthorLayout";
 import { PostContext } from "../../../context/post";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Router from "next/router";
 import PostList from "../../../components/posts/PostList";
+import { AuthContext } from "../../../context/auth";
+import Loader from "../../../components/Loader";
 
 const index = () => {
   const [post, setPost] = useContext(PostContext);
+  const { auth } = useContext(AuthContext);
+  const [loader, setLoader] = useState(false);
 
-  const fetchAllPosts = async () => {
+  useEffect(() => {
+    fetchAllPostsByAuthor();
+  }, []);
+
+  const fetchAllPostsByAuthor = async () => {
+    setLoader(true);
+
     try {
       await axios
         .get("/posts")
         .then((res) => setPost((prev) => ({ ...prev, posts: res.data.posts })));
+      setLoader(false);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  useEffect(() => {
-    fetchAllPosts();
-  }, []);
-
   //edit
   const handleEdit = (item) => {
-    Router.push(`/admin/posts/${item.slug}`);
+    Router.push(`/author/posts/${item.slug}`);
   };
 
   //delete
@@ -38,7 +45,6 @@ const index = () => {
         "Are you sure you want to delete this post?"
       );
       if (!answer) return;
-
       await axios
         .delete(`/post/${item._id}`)
         .then((res) => {
@@ -53,14 +59,15 @@ const index = () => {
       toast.error("Failed to delete post");
     }
   };
+  if (loader) return <Loader />;
 
   return (
     <>
-      <AdminLayout>
+      <AuthorLayout>
         <Row>
           <Col span={24}>
             <Button type="primary" style={{ margin: "10px" }}>
-              <Link href="/admin/posts/new">
+              <Link href="/author/posts/new">
                 <a>
                   <PlusOutlined />
                   Add new
@@ -90,7 +97,7 @@ const index = () => {
             })}
           </Col>
         </Row>
-      </AdminLayout>
+      </AuthorLayout>
     </>
   );
 };

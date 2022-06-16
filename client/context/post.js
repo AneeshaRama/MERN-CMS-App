@@ -9,16 +9,6 @@ export const PostProvider = ({ children }) => {
     categories: [],
   });
 
-  const fetchAllPosts = async () => {
-    try {
-      await axios
-        .get("/posts")
-        .then((res) => setPost((prev) => ({ ...prev, posts: res.data.posts })));
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const fetchCategories = async () => {
     try {
       await axios.get("/categories").then((res) => {
@@ -30,7 +20,6 @@ export const PostProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchAllPosts();
     fetchCategories();
   }, []);
 

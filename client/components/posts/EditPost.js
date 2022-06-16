@@ -8,33 +8,20 @@ import Router from "next/router";
 import { UploadOutlined } from "@ant-design/icons";
 import Media from "../media";
 import { PostContext } from "../../context/post";
+import Loader from "../Loader";
 
-const CreatePost = ({ redirect }) => {
-  //load from localStorage
-  const savedTitle = () => {
-    if (process.browser) {
-      if (localStorage.getItem("post-title")) {
-        return JSON.parse(localStorage.getItem("post-title"));
-      }
-    }
-  };
-  const savedContent = () => {
-    if (process.browser) {
-      if (localStorage.getItem("post-content")) {
-        return JSON.parse(localStorage.getItem("post-content"));
-      }
-    }
-  };
-
-  const [title, setTitle] = useState(savedTitle());
-  const [content, setContent] = useState(savedContent());
+const EditPost = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [categories, setCategories] = useState([]);
   const [loadedCategories, setLoadedCategories] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showPreviewImage, setShowPreviewImage] = useState([]);
+  const [showPreviewImage, setShowPreviewImage] = useState(null);
   const [post, setPost] = useContext(PostContext);
+  const [singlePost, setSinglePost] = useState();
+  const [loader, setLoader] = useState(false);
 
   const fetchCategories = async () => {
     await axios.get("/categories").then((res) => {
@@ -42,6 +29,21 @@ const CreatePost = ({ redirect }) => {
     });
   };
 
+  const fetchPosts = async () => {
+    setLoader(true);
+    await axios.get(`/post/${Router.query.slug}`).then((res) => {
+      setSinglePost(res.data.post);
+      setTitle(res.data.post?.title);
+      setContent(res.data.post?.content);
+      let arr = [];
+      res.data.post?.categories.map((c) => arr.push(c.name));
+      setCategories(arr);
+      setLoader(false);
+    });
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, [Router?.query?.slug]);
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -50,7 +52,7 @@ const CreatePost = ({ redirect }) => {
     setLoading(true);
     try {
       await axios
-        .post("/post/new", {
+        .put(`/edit-post/${singlePost._id}`, {
           title,
           content,
           categories,
@@ -58,15 +60,20 @@ const CreatePost = ({ redirect }) => {
         })
         .then((res) => {
           setLoading(false);
-          setPost((prev) => ({
-            ...prev,
-            posts: [res.data.post, ...post.posts],
-          }));
+          const newPosts = post.posts.map((p) => {
+            if (p._id === res.data.post._id) {
+              return res.data.post;
+            }
+            return p;
+          });
+          setPost((prev) => ({ ...prev, posts: newPosts }));
           toast.success(res.data.message);
-          localStorage.removeItem("post-title");
-          localStorage.removeItem("post-content");
+          setSinglePost("");
+          setTitle("");
+          setContent("");
+          setCategories([]);
           setShowPreviewImage(null);
-          Router.push(redirect);
+          Router.push("/admin/posts");
         })
         .catch((err) => {
           setLoading(false);
@@ -77,12 +84,13 @@ const CreatePost = ({ redirect }) => {
       toast.error("Failed to publish post!");
     }
   };
+  if (loader) return <Loader />;
 
   return (
     <>
       <div className="category-container">
         <div sty className="create-post-wrapper">
-          <h1>Create new Post</h1>
+          <h1>Edit Post</h1>
           <Input
             size="large"
             placeholder="Add post title"
@@ -140,6 +148,7 @@ const CreatePost = ({ redirect }) => {
           placeholder="Select Categories"
           style={{ width: "50vw" }}
           onChange={(e) => setCategories(e)}
+          value={[...categories]}
         >
           {loadedCategories.map((item) => (
             <Select.Option key={item.name}>{item.name}</Select.Option>
@@ -157,7 +166,7 @@ const CreatePost = ({ redirect }) => {
           onClick={handlePublish}
           loading={loading}
         >
-          Publish
+          Update post
         </Button>
       </div>
       <Modal
@@ -185,4 +194,4 @@ const CreatePost = ({ redirect }) => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

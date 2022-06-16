@@ -5,7 +5,7 @@ import CreatePost from "../../../components/posts/CreatePost";
 const index = () => {
   return (
     <AuthorLayout>
-      <CreatePost />
+      <CreatePost redirect="/author/posts" />
     </AuthorLayout>
   );
 };
