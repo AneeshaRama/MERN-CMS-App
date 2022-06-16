@@ -5,7 +5,9 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
+body {
+  background-color: #efefef !important;
+}
 .active {
   color: #1890ff !important;
   text-decoration: underline;
@@ -74,4 +76,10 @@ html {
 }
 .content {
   background-color: red !important;
+}
+.ant-list-item-meta-description {
+  color: #232323 !important;
+}
+.ant-list-item-meta-title {
+  color: maroon !important;
 }

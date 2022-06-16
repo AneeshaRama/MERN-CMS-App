@@ -43,13 +43,13 @@ const TopNav = () => {
             <a>BLOGGER</a>
           </Link>
         </Menu.Item>
-        {auth.user !== null && (
-          <Menu.Item key="post" icon={<DatabaseOutlined />}>
-            <Link href={"/posts"}>
-              <a>Posts</a>
-            </Link>
-          </Menu.Item>
-        )}
+
+        <Menu.Item key="post" icon={<DatabaseOutlined />}>
+          <Link href={"/posts"}>
+            <a>Posts</a>
+          </Link>
+        </Menu.Item>
+
         {auth.user !== null ? (
           <Menu.Item
             key="logout"
