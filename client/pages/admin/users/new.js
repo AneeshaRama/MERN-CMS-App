@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import { Row, Col, Input, Button, Select } from "antd";
 import axios from "axios";
-import Router from "next/router";
 import toast from "react-hot-toast";
 import generator from "generate-password";
 
@@ -75,9 +74,9 @@ const AddUser = () => {
               onChange={(e) => setRole(e)}
               size="large"
             >
-              <Select.Option value="Subscriber">Subscriber</Select.Option>
-              <Select.Option value="Author">Author</Select.Option>
-              <Select.Option value="Admin">Admin</Select.Option>
+              <Select.Option value="subscriber">Subscriber</Select.Option>
+              <Select.Option value="author">Author</Select.Option>
+              <Select.Option value="admin">Admin</Select.Option>
             </Select>
             <Button
               style={{ marginTop: "20px" }}

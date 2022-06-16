@@ -7,6 +7,7 @@ import { PostContext } from "../../../context/post";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Router from "next/router";
+import PostList from "../../../components/posts/PostList";
 
 const index = () => {
   const [post, setPost] = useContext(PostContext);
@@ -64,41 +65,12 @@ const index = () => {
 
             {post.posts.map((item) => {
               return (
-                <div
+                <PostList
                   key={item._id}
-                  style={{
-                    backgroundColor: "rgb(193, 220, 245)",
-                    marginTop: "5px",
-                    borderRadius: "5px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "10px",
-                  }}
-                >
-                  <div>
-                    <h1>{item.title}</h1>
-                  </div>
-                  <div>
-                    <EditOutlined
-                      onClick={() => handleEdit(item)}
-                      style={{
-                        marginRight: "20px",
-                        cursor: "pointer",
-                        color: "#1890ff",
-                        fontSize: "18px",
-                      }}
-                    />
-                    <DeleteOutlined
-                      onClick={() => handleDelete(item)}
-                      style={{
-                        cursor: "pointer",
-                        color: "#1890ff",
-                        fontSize: "18px",
-                      }}
-                    />
-                  </div>
-                </div>
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  item={item}
+                />
               );
             })}
           </Col>
