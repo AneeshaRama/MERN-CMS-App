@@ -231,3 +231,57 @@ export const createComment = async (req, res) => {
     res.status(500).json({ message: "Failed to create comment" });
   }
 };
+
+export const adminComments = async (req, res) => {
+  try {
+    const perPage = 3;
+    const page = req.params.page || 1;
+    const allComments = await Comments.find()
+      .skip((page - 1) * perPage)
+      .populate("postedBy", "name")
+      .populate("postId", "title slug")
+      .sort({ createdAt: -1 })
+      .limit(perPage);
+    res.status(200).json({ allComments });
+  } catch (error) {
+    res.status(500).json({ message: "failed to fetch all comments" });
+  }
+};
+export const commentCount = async (req, res) => {
+  try {
+    const count = await Comments.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "failed to fetch count" });
+  }
+};
+export const removeComment = async (req, res) => {
+  try {
+    const comment = await Comments.findById(req.params.id);
+    comment.remove();
+    res.status(200).json({ message: "Successfully deleted comment", comment });
+  } catch (error) {
+    res.status(500).json({ message: "failed to remove comment" });
+  }
+};
+export const updateComment = async (req, res) => {
+  try {
+    const comment = await Comments.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ message: "successfully updated comment", comment });
+  } catch (error) {
+    res.status(500).json({ message: "failed to update comment" });
+  }
+};
+export const userComments = async (req, res) => {
+  try {
+    const allComments = await Comments.find({ postedBy: req.auth._id })
+      .populate("postedBy", "name")
+      .populate("postId", "title slug")
+      .sort({ createdAt: -1 });
+    res.status(200).json({ allComments });
+  } catch (error) {
+    res.status(500).json({ message: "failed to update comment" });
+  }
+};

@@ -2,6 +2,7 @@ var { expressjwt: jwt } = require("express-jwt");
 const { default: user } = require("../models/user");
 require("dotenv").config();
 const { default: post } = require("../models/blogPostModel");
+const { default: comments } = require("../models/comments");
 
 const requireLogin = jwt({
   secret: process.env.JWT_SECRET,
@@ -64,10 +65,39 @@ const canUpdateAndDeletePost = async (req, res, next) => {
   }
 };
 
+const canUpdateAndDeleteComment = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const commetDetails = await comments.findById(id);
+    const userDetail = await user.findById(req.auth._id);
+    switch (userDetail.role) {
+      case "admin":
+        next();
+        break;
+      case "author":
+        if (commetDetails.postedBy._id.toString() === req.auth._id.toString()) {
+          next();
+        }
+        break;
+      case "user":
+        if (commetDetails.postedBy._id.toString() === req.auth._id.toString()) {
+          next();
+        }
+        break;
+
+      default:
+        res.status(401).json({ message: "Unauthorized" });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   requireLogin,
   adminCheck,
   authorCheck,
   canUpdateAndDeletePost,
   adminAndAuthor,
+  canUpdateAndDeleteComment,
 };

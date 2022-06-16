@@ -15,13 +15,18 @@ import {
   postCount,
   loadPosts,
   createComment,
+  adminComments,
+  commentCount,
+  removeComment,
+  updateComment,
+  userComments,
 } from "../controllers/blogPosts";
 import {
   requireLogin,
   adminCheck,
   canUpdateAndDeletePost,
   adminAndAuthor,
-  authorCheck,
+  canUpdateAndDeleteComment,
 } from "../middlewares";
 
 router.post("/upload-image", requireLogin, adminAndAuthor, uploadImage);
@@ -44,5 +49,20 @@ router.get("/load-posts/:page", loadPosts);
 
 //comments
 router.post("/comment/:id", requireLogin, createComment);
+router.get("/comments/:page", requireLogin, adminCheck, adminComments);
+router.get("/user-comments", requireLogin, userComments);
+router.get("/comments-count", commentCount);
+router.delete(
+  "/comment/:id",
+  requireLogin,
+  canUpdateAndDeleteComment,
+  removeComment
+);
+router.put(
+  "/comment/:id",
+  requireLogin,
+  canUpdateAndDeleteComment,
+  updateComment
+);
 
 export default router;
