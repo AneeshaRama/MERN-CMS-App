@@ -11,22 +11,30 @@ import {
   getPostDetails,
   deletePost,
   editPost,
+  postsByAuthor,
 } from "../controllers/blogPosts";
-import { requireLogin, adminCheck } from "../middlewares";
+import {
+  requireLogin,
+  adminCheck,
+  canUpdateAndDeletePost,
+  adminAndAuthor,
+  authorCheck,
+} from "../middlewares";
 
-router.post("/upload-image", requireLogin, adminCheck, uploadImage);
+router.post("/upload-image", requireLogin, adminAndAuthor, uploadImage);
 router.post(
   "/upload-image-file",
   formidable(),
   requireLogin,
-  adminCheck,
+  adminAndAuthor,
   uploadImageFile
 );
-router.post("/post/new", requireLogin, adminCheck, createPost);
+router.post("/post/new", requireLogin, adminAndAuthor, createPost);
 router.get("/posts", listAllPosts);
 router.get("/media", requireLogin, adminCheck, allMedia);
 router.get("/post/:slug", getPostDetails);
-router.delete("/post/:slug", requireLogin, adminCheck, deletePost);
-router.put("/edit-post/:id", requireLogin, adminCheck, editPost);
+router.delete("/post/:id", requireLogin, canUpdateAndDeletePost, deletePost);
+router.put("/edit-post/:id", requireLogin, canUpdateAndDeletePost, editPost);
+router.get("/posts-by-author", postsByAuthor);
 
 export default router;

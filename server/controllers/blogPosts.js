@@ -117,8 +117,10 @@ export const getPostDetails = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    const { slug } = req.params;
-    const post = await Posts.findOneAndDelete({ slug });
+    const { id } = req.params;
+    const post = await Posts.findById(id);
+    console.log(post);
+    await post.remove();
     res.status(200).json({ message: "Successfully deleted", post });
   } catch (error) {
     res.status(500).json({ message: "Failed to delete post" });
@@ -159,5 +161,21 @@ export const editPost = async (req, res) => {
     }, 2000);
   } catch (error) {
     res.status(500).json({ message: "Failed to update post" });
+  }
+};
+
+export const postsByAuthor = async (req, res) => {
+  try {
+    console.log(req.auth._id);
+    const posts = await Posts.findOne({ postedBy: req.auth._id })
+      .populate("postedBy", "name")
+      .populate("categories", "name slug")
+      .populate("featuredImage", "url")
+      .sort({ createdAt: -1 });
+
+    console.log(posts);
+    res.status(200).json({ posts });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch posts" });
   }
 };
