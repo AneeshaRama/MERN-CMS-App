@@ -108,7 +108,7 @@ export const createUser = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "Email already exists" });
     }
-    if (password.length > 6) {
+    if (password.length < 6) {
       return res
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
@@ -126,5 +126,44 @@ export const createUser = async (req, res) => {
       .json({ message: "Successfully created new user", user });
   } catch (error) {
     res.status(500).json({ message: "Failed to create user" });
+  }
+};
+
+export const listAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.json({ users });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to list all users" });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id);
+    user.remove();
+    res.status(200).json({ message: "User deleted successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete user" });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).send({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch user" });
+  }
+};
+
+export const updateUserByAdmin = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ message: "Successfully updated user info", user });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update user" });
   }
 };

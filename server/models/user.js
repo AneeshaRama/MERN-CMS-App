@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
@@ -23,13 +22,18 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      default: "Subscriber",
+      default: "user",
     },
     image: {
       public_id: "",
       url: "",
     },
-    resetCode: "",
+    posts: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "posts",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -3,6 +3,7 @@ import Posts from "../models/blogPostModel";
 import slugify from "slugify";
 import Category from "../models/category";
 import Media from "../models/mediaModel";
+import Users from "../models/user";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -46,6 +47,7 @@ export const createPost = async (req, res) => {
         categoryIds.push(category._id);
       });
     }
+
     //save posts
     setTimeout(async () => {
       const post = await new Posts({
@@ -56,6 +58,10 @@ export const createPost = async (req, res) => {
         postedBy: req.auth._id,
         featuredImage,
       }).save();
+      //save  users post in post arrray
+      await Users.findByIdAndUpdate(req.auth._id, {
+        $addToSet: { posts: post._id },
+      });
       res.status(201).json({ message: "Successfully created new post", post });
     }, 2000);
   } catch (error) {
