@@ -201,7 +201,7 @@ export const postCount = async (req, res) => {
 
 export const loadPosts = async (req, res) => {
   try {
-    const perPage = 1;
+    const perPage = 6;
     const page = req.params.page || 1;
     const posts = await Posts.find()
       .skip((page - 1) * perPage)
@@ -234,7 +234,7 @@ export const createComment = async (req, res) => {
 
 export const adminComments = async (req, res) => {
   try {
-    const perPage = 3;
+    const perPage = 10;
     const page = req.params.page || 1;
     const allComments = await Comments.find()
       .skip((page - 1) * perPage)
@@ -283,5 +283,15 @@ export const userComments = async (req, res) => {
     res.status(200).json({ allComments });
   } catch (error) {
     res.status(500).json({ message: "failed to update comment" });
+  }
+};
+
+export const userPosts = async (req, res) => {
+  try {
+    const posts = await Posts.find({ postedBy: req.auth._id });
+    console.log(posts);
+    res.status(200).json({ posts });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch user posts" });
   }
 };

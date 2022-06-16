@@ -12,6 +12,7 @@ const {
   deleteUser,
   updateUserByAdmin,
   getUser,
+  updateProfile,
 } = require("../controllers/auth");
 const { requireLogin, adminCheck, authorCheck } = require("../middlewares");
 
@@ -23,6 +24,7 @@ router.get("/current-user", requireLogin, currentUser);
 router.get("/users", requireLogin, adminCheck, listAllUsers);
 router.delete("/user/:id", requireLogin, adminCheck, deleteUser);
 router.get("/user/:id", requireLogin, getUser);
+router.put("/update-profile", requireLogin, updateProfile);
 
 //create new user by admin
 router.post("/create-user", requireLogin, adminCheck, createUser);

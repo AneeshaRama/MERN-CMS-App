@@ -167,3 +167,38 @@ export const updateUserByAdmin = async (req, res) => {
     res.status(500).json({ message: "Failed to update user" });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.status(400).json({ message: "This email already exists" });
+    }
+
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
+    }
+    const hashedPassword = await hashPassword(password);
+
+    let user = await User.findByIdAndUpdate(
+      req.auth._id,
+      {
+        name,
+        email,
+        password: hashedPassword,
+      },
+      { new: true }
+    );
+    console.log(user);
+    res.json({
+      message: "Successfully updated your profile. Please login to continue",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update profile" });
+  }
+};

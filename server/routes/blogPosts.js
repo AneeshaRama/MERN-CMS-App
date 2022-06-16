@@ -20,6 +20,7 @@ import {
   removeComment,
   updateComment,
   userComments,
+  userPosts,
 } from "../controllers/blogPosts";
 import {
   requireLogin,
@@ -27,6 +28,7 @@ import {
   canUpdateAndDeletePost,
   adminAndAuthor,
   canUpdateAndDeleteComment,
+  authorCheck,
 } from "../middlewares";
 
 router.post("/upload-image", requireLogin, adminAndAuthor, uploadImage);
@@ -46,6 +48,7 @@ router.put("/edit-post/:id", requireLogin, canUpdateAndDeletePost, editPost);
 router.get("/posts-by-author", postsByAuthor);
 router.get("/post-count", postCount);
 router.get("/load-posts/:page", loadPosts);
+router.get("/user-posts", requireLogin, authorCheck, userPosts);
 
 //comments
 router.post("/comment/:id", requireLogin, createComment);
