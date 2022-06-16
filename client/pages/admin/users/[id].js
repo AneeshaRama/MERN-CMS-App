@@ -1,34 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AdminLayout from "../../../components/layout/AdminLayout";
 import { Row, Col, Input, Button, Select } from "antd";
 import axios from "axios";
 import toast from "react-hot-toast";
-import generator from "generate-password";
+import { AuthContext } from "../../../context/auth";
+import Router from "next/router";
 
-const AddUser = () => {
+const index = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
+  const [auth] = useContext(AuthContext);
+  const [userId, setUserId] = useState("");
+
+  const fetchUser = async () => {
+    try {
+      await axios.get(`/user/${Router.query.id}`).then((res) => {
+        setUserId(res.data.user._id);
+        setName(res.data.user.name);
+        setEmail(res.data.user.email);
+        setRole(res.data.user.role);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (auth?.token) fetchUser();
+  }, [auth?.token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
       await axios
-        .post("/create-user", { name, email, password, role })
-        .then((res) => {
-          setLoading(false);
-          toast.success(res.data.message);
+        .put(`/update-user-by-admin/${userId}`, {
+          name,
+          email,
+          role,
         })
-        .catch((err) => {
-          setLoading(false);
-          toast.error(err.response.data.message);
+        .then((res) => {
+          toast.success(res.data.message);
+          Router.push("/admin/users");
         });
     } catch (error) {
       setLoading(false);
-      toast.error("Signup failed");
+      toast.error("Update user failed");
     }
   };
 
@@ -52,24 +70,8 @@ const AddUser = () => {
               size="large"
               value={email}
             />
-            <div style={{ display: "flex", alignItems: "cenetr" }}>
-              <Button
-                style={{ marginTop: "10px" }}
-                onClick={() => setPassword(generator.generate({ length: 32 }))}
-                size="large"
-                type="ghost"
-              >
-                Generate password
-              </Button>
-              <Input.Password
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                size="large"
-                style={{ marginTop: "10px" }}
-              />
-            </div>
             <Select
-              defaultValue="User"
+              value={role}
               style={{ marginTop: "10px", width: "100%" }}
               onChange={(e) => setRole(e)}
               size="large"
@@ -79,13 +81,15 @@ const AddUser = () => {
               <Select.Option value="admin">Admin</Select.Option>
             </Select>
             <Button
-              style={{ marginTop: "20px" }}
+              style={{
+                marginTop: "20px",
+              }}
               type="primary"
               size="large"
               onClick={handleSubmit}
               loading={loading}
             >
-              Submit
+              Update user info
             </Button>
           </Col>
         </Row>
@@ -94,4 +98,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default index;

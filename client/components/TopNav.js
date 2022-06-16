@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Menu } from "antd";
 import {
-  AppstoreOutlined,
   SettingOutlined,
   CloudFilled,
   UserAddOutlined,
@@ -89,16 +88,16 @@ const TopNav = () => {
               <Menu.ItemGroup title="Management">
                 <Menu.Item key="one" icon={<SettingOutlined />}>
                   <Link href={"/admin"}>
-                    <a>Admin Dashboard</a>
+                    <a>Dashboard</a>
                   </Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             )}
-            {auth.user.role === "Subscriber" && (
+            {auth.user.role === "user" && (
               <Menu.ItemGroup title="Management">
                 <Menu.Item key="one" icon={<SettingOutlined />}>
-                  <Link href={"/user/profile"}>
-                    <a>Profile</a>
+                  <Link href={"/user"}>
+                    <a>Dashboard</a>
                   </Link>
                 </Menu.Item>
               </Menu.ItemGroup>

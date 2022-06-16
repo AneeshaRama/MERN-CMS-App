@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Layout } from "antd";
-import AdminNav from "../navbar/AdminNav";
+import UserNav from "../navbar/UserNav";
 import axios from "axios";
 import Router from "next/router";
 import { AuthContext } from "../../context/auth";
 import Loader from "../Loader";
 import Head from "next/head";
 
-const AdminLayout = ({ children }) => {
+const UserLayout = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useContext(AuthContext);
   const { Content } = Layout;
 
-  const fetchAdmin = async () => {
+  const fetchUser = async () => {
     try {
-      await axios.get("/current-admin").then(() => {
+      await axios.get("/current-user").then(() => {
         setLoading(false);
       });
     } catch (error) {
@@ -23,7 +23,7 @@ const AdminLayout = ({ children }) => {
   };
 
   useEffect(() => {
-    if (auth?.token) fetchAdmin();
+    if (auth?.token) fetchUser();
   }, [auth?.token]);
 
   if (loading) {
@@ -32,10 +32,10 @@ const AdminLayout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Admin Dashboard</title>
+        <title>User Dashboard</title>
       </Head>
       <Layout style={{ minHeight: "90vh" }}>
-        <AdminNav />
+        <UserNav />
         <Layout>
           <Content style={{ padding: "10px" }}>{children}</Content>
         </Layout>
@@ -44,4 +44,4 @@ const AdminLayout = ({ children }) => {
   );
 };
 
-export default AdminLayout;
+export default UserLayout;

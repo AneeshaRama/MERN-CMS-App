@@ -38,13 +38,8 @@ const login = () => {
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
           form.resetFields();
-          if (res.data.user.role == "admin") {
-            Router.push("/admin");
-          } else if (res.data.user.role == "author") {
-            Router.push("/author");
-          } else {
-            Router.push("/");
-          }
+
+          Router.push("/");
         })
         .catch((err) => {
           setLoading(false);
