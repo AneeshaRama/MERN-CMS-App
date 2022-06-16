@@ -185,3 +185,29 @@ export const postsByAuthor = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch posts" });
   }
 };
+
+export const postCount = async (req, res) => {
+  try {
+    const count = await Posts.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch post count" });
+  }
+};
+
+export const loadPosts = async (req, res) => {
+  try {
+    const perPage = 1;
+    const page = req.params.page || 1;
+    const posts = await Posts.find()
+      .skip((page - 1) * perPage)
+      .populate("featuredImage")
+      .populate("postedBy", "name")
+      .populate("categories", "name slug")
+      .sort({ createdAt: -1 })
+      .limit(perPage);
+    res.status(200).json({ posts });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to list all posts" });
+  }
+};

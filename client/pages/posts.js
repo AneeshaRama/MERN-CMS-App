@@ -1,11 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Row, Col, Card, Avatar } from "antd";
+import { Row, Col, Card, Avatar, Button } from "antd";
 import Head from "next/head";
 import Link from "next/link";
 
 const posts = ({ allPosts }) => {
-  console.log(allPosts);
+  const [posts, setPosts] = useState(allPosts);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const getTotal = async () => {
+    try {
+      await axios.get("/post-count").then((res) => {
+        setTotal(res.data.count);
+      });
+    } catch (error) {
+      console.log("Failed to get count");
+    }
+  };
+  const loadMorePosts = async () => {
+    setLoading(true);
+    try {
+      await axios.get(`/load-posts/${page}`).then((res) => {
+        setPosts([...posts, ...res.data.posts]);
+        setLoading(false);
+      });
+    } catch (error) {
+      setLoading(false);
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (page === 1) return;
+    loadMorePosts();
+  }, [page]);
+
+  useEffect(() => {
+    getTotal();
+  }, []);
+
   return (
     <>
       <Head>
@@ -17,7 +52,7 @@ const posts = ({ allPosts }) => {
       </Head>
       <div style={{ padding: "15px" }}>
         <Row gutter={12}>
-          {allPosts.map((post) => {
+          {posts.map((post) => {
             return (
               <Col
                 xs={24}
@@ -54,13 +89,38 @@ const posts = ({ allPosts }) => {
             );
           })}
         </Row>
+        {posts?.length < total && (
+          <Row>
+            <Col
+              span={24}
+              style={{
+                textAlign: "center",
+              }}
+            >
+              <Button
+                style={{
+                  backgroundColor: "maroon",
+                  color: "white",
+                  border: "none",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                }}
+                type="default"
+                onClick={() => setPage(page + 1)}
+                loading={loading}
+              >
+                Load more
+              </Button>
+            </Col>
+          </Row>
+        )}
       </div>
     </>
   );
 };
 
 export async function getServerSideProps() {
-  const { data } = await axios.get(`/posts`);
+  const { data } = await axios.get(`/load-posts/1`);
   return {
     props: {
       allPosts: data.posts,

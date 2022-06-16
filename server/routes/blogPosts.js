@@ -12,6 +12,8 @@ import {
   deletePost,
   editPost,
   postsByAuthor,
+  postCount,
+  loadPosts,
 } from "../controllers/blogPosts";
 import {
   requireLogin,
@@ -36,5 +38,7 @@ router.get("/post/:slug", getPostDetails);
 router.delete("/post/:id", requireLogin, canUpdateAndDeletePost, deletePost);
 router.put("/edit-post/:id", requireLogin, canUpdateAndDeletePost, editPost);
 router.get("/posts-by-author", postsByAuthor);
+router.get("/post-count", postCount);
+router.get("/load-posts/:page", loadPosts);
 
 export default router;
