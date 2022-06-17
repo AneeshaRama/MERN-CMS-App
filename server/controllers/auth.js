@@ -202,3 +202,16 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Failed to update profile" });
   }
 };
+
+export const becomeAuthor = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(
+      req.auth._id,
+      { role: "author" },
+      { new: true }
+    );
+    res.status(200).json({ message: "Success! Please login to start writing" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to become author" });
+  }
+};

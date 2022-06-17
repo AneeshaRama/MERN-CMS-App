@@ -72,7 +72,9 @@ const index = () => {
                     />,
                   ]}
                 >
-                  <Avatar src={item?.image?.url}>a</Avatar>
+                  <Avatar src={item?.image?.url}>
+                    {item?.name?.charAt(0).toUpperCase()}
+                  </Avatar>
                   <List.Item.Meta
                     title={item.name}
                     style={{ marginLeft: "10px" }}

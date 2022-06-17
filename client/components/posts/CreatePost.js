@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Editor from "rich-markdown-editor";
-import { Input, Select, Modal, Button, Image } from "antd";
+import { Input, Select, Modal, Button, Image, Typography } from "antd";
 import axios from "axios";
 import { uploadImage } from "../../utils/uploadImage";
 import toast from "react-hot-toast";
@@ -82,7 +82,9 @@ const CreatePost = ({ redirect }) => {
     <>
       <div className="category-container">
         <div sty className="create-post-wrapper">
-          <h1>Create new Post</h1>
+          <Typography.Title level={3} style={{ color: "maroon" }}>
+            CREATE YOUR NEW POST
+          </Typography.Title>
           <Input
             size="large"
             placeholder="Add post title"

@@ -13,6 +13,7 @@ const {
   updateUserByAdmin,
   getUser,
   updateProfile,
+  becomeAuthor,
 } = require("../controllers/auth");
 const { requireLogin, adminCheck, authorCheck } = require("../middlewares");
 
@@ -34,5 +35,8 @@ router.put(
   adminCheck,
   updateUserByAdmin
 );
+
+//become author
+router.put("/become-author", requireLogin, becomeAuthor);
 
 export default router;

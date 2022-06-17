@@ -4,6 +4,7 @@ import {
   SettingOutlined,
   UserOutlined,
   CommentOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -55,6 +56,11 @@ const UserNav = () => {
         <Menu.Item key="10" icon={<UserOutlined />}>
           <Link href="/user/profile">
             <a className={activeName("/user/profile")}>My Profile</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="11" icon={<UserAddOutlined />}>
+          <Link href="/user/become-author">
+            <a className={activeName("/user/become-author")}>Become Author</a>
           </Link>
         </Menu.Item>
       </Menu>

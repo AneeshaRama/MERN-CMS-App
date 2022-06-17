@@ -36,7 +36,7 @@ const index = () => {
           src="https://res.cloudinary.com/jamesmarycloud/image/upload/v1655414655/BLOGGER/HomePage_hl9p3w.webp"
           style={{
             width: "100%",
-            height: "80vh",
+            height: "62vh",
             objectFit: "cover",
             overflow: "hidden",
           }}

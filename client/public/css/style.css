@@ -88,7 +88,7 @@ body {
 }
 .home-title {
   position: absolute;
-  top: 30%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -118,11 +118,11 @@ body {
   color: white;
   letter-spacing: 1px;
 }
-.ant-menu {
+/* .ant-menu {
   position: sticky;
   top: 0;
-  z-index: 50;
-}
+  z-index: 500;
+} */
 
 @media (max-width: 560px) {
   .home-title h1 {
