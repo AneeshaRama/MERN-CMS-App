@@ -201,7 +201,7 @@ export const postCount = async (req, res) => {
 
 export const loadPosts = async (req, res) => {
   try {
-    const perPage = 6;
+    const perPage = 8;
     const page = req.params.page || 1;
     const posts = await Posts.find()
       .skip((page - 1) * perPage)

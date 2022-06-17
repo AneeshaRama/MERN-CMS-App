@@ -75,7 +75,7 @@ const posts = ({ allPosts }) => {
                           style={{ height: "200px" }}
                           src={
                             post?.featuredImage?.url ||
-                            "https://res.cloudinary.com/jamesmarycloud/image/upload/v1655295170/BLOGGER/default-image_utrmmd.jpg"
+                            "https://res.cloudinary.com/jamesmarycloud/image/upload/v1655471668/BLOGGER/default-image_m14xy3.jpg"
                           }
                           alt={post.title}
                         />

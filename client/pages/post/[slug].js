@@ -121,20 +121,14 @@ const SinglePost = ({ singlePost, allComments }) => {
               )}
             />
           </Col>
-          {/* <Col xs={24} lg={8}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Reprehenderit natus dolorum quibusdam itaque hic. Id laboriosam
-            corrupti dolores quibusdam cumque? Tenetur consectetur non alias
-            earum dignissimos provident perspiciatis eius ex.
-          </Col> */}
         </Row>
       </div>
     </>
   );
 };
 
-export async function getServerSideProps({ params }) {
-  const { data } = await axios.get(`/post/${params.slug}`);
+export async function getServerSideProps(context) {
+  const { data } = await axios.get(`/post/${context.query.slug}`);
   return {
     props: {
       singlePost: data.post,
