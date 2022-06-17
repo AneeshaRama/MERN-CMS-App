@@ -5,7 +5,7 @@ import { Input, Select, Modal, Button, Image } from "antd";
 import axios from "axios";
 import { uploadImage } from "../../../utils/uploadImage";
 import toast from "react-hot-toast";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { UploadOutlined } from "@ant-design/icons";
 import Media from "../../../components/media";
 import { PostContext } from "../../../context/post";
@@ -23,6 +23,7 @@ const EditPostAuthor = () => {
   const [post, setPost] = useContext(PostContext);
   const [singlePost, setSinglePost] = useState();
   const [loader, setLoader] = useState(false);
+  const router = useRouter();
 
   const fetchCategories = async () => {
     await axios.get("/categories").then((res) => {
@@ -32,7 +33,7 @@ const EditPostAuthor = () => {
 
   const fetchPosts = async () => {
     setLoader(true);
-    await axios.get(`/post/${Router.query.slug}`).then((res) => {
+    await axios.get(`/post/${router.query.slug}`).then((res) => {
       setSinglePost(res.data.post);
       setTitle(res.data.post?.title);
       setContent(res.data.post?.content);
@@ -44,7 +45,7 @@ const EditPostAuthor = () => {
   };
   useEffect(() => {
     fetchPosts();
-  }, [Router?.query?.slug]);
+  }, [router?.query?.slug]);
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -74,7 +75,7 @@ const EditPostAuthor = () => {
           setContent("");
           setCategories([]);
           setShowPreviewImage(null);
-          Router.push("/author/posts");
+          router.push("/author/posts");
         })
         .catch((err) => {
           setLoading(false);

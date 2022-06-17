@@ -5,7 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/auth";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Loader from "../components/Loader";
 
@@ -14,12 +14,13 @@ const login = () => {
   const [auth, setAuth] = useContext(AuthContext);
   const [loader, setLoader] = useState(true);
   const [form] = Form.useForm();
+  const router = useRouter();
 
   useEffect(() => {
     if (auth?.user === null) {
       setLoader(false);
     } else {
-      Router.push("/");
+      router.push("/");
     }
   }, [auth]);
 
@@ -38,8 +39,7 @@ const login = () => {
           setAuth(res.data);
           localStorage.setItem("auth", JSON.stringify(res.data));
           form.resetFields();
-
-          Router.push("/");
+          router.push("/");
         })
         .catch((err) => {
           setLoading(false);
