@@ -133,9 +133,8 @@ const SinglePost = ({ singlePost, allComments }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const { slug } = context.query;
-  const { data } = await axios.get(`/post/${slug}`);
+export async function getServerSideProps({ params }) {
+  const { data } = await axios.get(`/post/${params.slug}`);
   return {
     props: {
       singlePost: data.post,
