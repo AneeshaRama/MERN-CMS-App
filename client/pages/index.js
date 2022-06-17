@@ -44,12 +44,12 @@ const index = () => {
         />
         <div className="home-title">
           <h1>BLOGGER</h1>
-          <p>Read and write your favourite topics</p>
+          <p>Read and write about your favourite topics</p>
           <Link href="/posts">
             <a>
               <Button size="large">
                 {" "}
-                <CaretUpOutlined spin /> I AM EXITED
+                <CaretUpOutlined spin /> I AM EXCITED
               </Button>
             </a>
           </Link>
@@ -87,6 +87,9 @@ const index = () => {
             <Button size="large">JOIN NOW</Button>
           </a>
         </Link>
+        <p style={{ marginTop: "25px", color: "white" }}>
+          Made with love by Aneesha rama
+        </p>
       </div>
     </>
   );

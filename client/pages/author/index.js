@@ -15,7 +15,14 @@ const index = () => {
           </Typography.Title>
         </Col>
 
-        <Col span={24} style={{ marginTop: "30px" }}>
+        <Col
+          span={24}
+          style={{
+            marginTop: "30px",
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}
+        >
           <h1 style={{ fontSize: "18px" }}>
             Start writing to share your information, thoughts to the world{" "}
             <Link href="/author/posts/new">

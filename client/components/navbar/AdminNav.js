@@ -90,6 +90,11 @@ const AdminNav = () => {
             </Link>
           </Menu.Item>
         </SubMenu>
+        <Menu.Item key="20" icon={<CommentOutlined />}>
+          <Link href="/admin/my-comments">
+            <a className={activeName("/admin/my-comments")}>My Comments</a>
+          </Link>
+        </Menu.Item>
 
         {/* PROFILE */}
         <Menu.Item key="10" icon={<UserOutlined />}>
